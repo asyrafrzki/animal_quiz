@@ -18,18 +18,15 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1600),
     );
-
     _fadeLogo = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
     _fadeButton = CurvedAnimation(
       parent: _controller,
       curve: const Interval(0.6, 1.0, curve: Curves.easeIn),
     );
-
     _controller.forward();
   }
 
@@ -45,7 +42,6 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -57,9 +53,9 @@ class _SplashScreenState extends State<SplashScreen>
               children: [
                 FadeTransition(
                   opacity: _fadeLogo,
-                  child: AppLogoHeader(height: h * 0.4),
+                  child: AppLogoHeader(height: h * 0.4, margin: EdgeInsets.zero),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 0),
                 FadeTransition(
                   opacity: _fadeLogo,
                   child: const Text(
