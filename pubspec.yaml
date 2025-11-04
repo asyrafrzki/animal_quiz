@@ -1,0 +1,33 @@
+name: animal_quiz
+description: quiz tebak hewan
+publish_to: "none"
+version: 1.0.0+1
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/app-logo.png
+    - assets/images/foto-badak.png
+    - assets/images/foto-harimau.png
+    - assets/images/foto-ayam.png
+    - assets/images/foto-jerapah.png
+    - assets/images/foto-gajah.png
+
+  fonts:
+    - family: PoppinsCustom
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
