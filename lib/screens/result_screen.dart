@@ -12,72 +12,171 @@ class ResultScreen extends StatelessWidget {
     final score = prov.calculateScore();
     final total = prov.total;
     final w = MediaQuery.of(context).size.width;
+    final primaryColor = Theme.of(context).primaryColor;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hasil Kuis', style: TextStyle(fontFamily: 'PoppinsCustom')),
+        title: const Text('Hasil Kuis', style: TextStyle(fontFamily: 'PoppinsCustom', fontWeight: FontWeight.bold)),
         automaticallyImplyLeading: false,
+        elevation: 0,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: w * 0.06, vertical: 20),
-          child: Column(
-            children: [
-              AppLogoHeader(height: 120),
-              const SizedBox(height: 18),
-              Text(
-                'Halo, ${prov.userName}',
-                style: const TextStyle(fontFamily: 'PoppinsCustom', fontSize: 20, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Skor Anda: $score / $total',
-                style: TextStyle(fontFamily: 'PoppinsCustom', fontSize: 18),
-              ),
-              const SizedBox(height: 18),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: prov.questions.length,
-                  itemBuilder: (context, idx) {
-                    final q = prov.questions[idx];
-                    final selected = prov.selectedAnswers[q.id];
-                    final correct = q.correctAnswer;
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      child: ListTile(
-                        leading: Image.asset(q.imageAsset, width: 56, height: 56, fit: BoxFit.cover),
-                        title: Text(q.question, style: const TextStyle(fontFamily: 'PoppinsCustom')),
-                        subtitle: Text(
-                          'Jawaban Anda: ${selected ?? '-'}  •  Jawaban Benar: $correct',
-                          style: TextStyle(fontFamily: 'PoppinsCustom'),
-                        ),
-                        trailing: Icon(
-                          selected != null && selected == correct ? Icons.check_circle : Icons.cancel,
-                          color: selected != null && selected == correct ? Colors.green : Colors.red,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Row(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: w * 0.06, vertical: 10),
+              child: Column(
                 children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        prov.resetQuiz();
-                        Navigator.pushReplacementNamed(context, '/');
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12),
-                        child: Text('Ulangi', style: TextStyle(fontFamily: 'PoppinsCustom')),
+                  AppLogoHeader(height: 100),
+                  const SizedBox(height: 18),
+                  Text(
+                    'Halo, ${prov.userName}',
+                    style: TextStyle(
+                      fontFamily: 'PoppinsCustom',
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.star, color: Colors.amber, size: 30),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Skor Anda: $score / $total',
+                            style: TextStyle(
+                              fontFamily: 'PoppinsCustom',
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: primaryColor,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
-            ],
-          ),
+            ),
+
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: w * 0.04),
+                itemCount: prov.questions.length,
+                itemBuilder: (context, idx) {
+                  final q = prov.questions[idx];
+                  final selected = prov.selectedAnswers[q.id];
+                  final correct = q.correctAnswer;
+                  final isCorrect = selected != null && selected == correct;
+
+                  return Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(
+                        color: isCorrect ? Colors.green.shade400 : Colors.red.shade400,
+                        width: 2,
+                      ),
+                    ),
+                    margin: const EdgeInsets.only(bottom: 15),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.asset(q.imageAsset, width: 64, height: 64, fit: BoxFit.cover),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  q.question,
+                                  style: const TextStyle(
+                                    fontFamily: 'PoppinsCustom',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text.rich(
+                                  TextSpan(
+                                    style: const TextStyle(fontFamily: 'PoppinsCustom', fontSize: 13),
+                                    children: [
+                                      const TextSpan(text: 'Jawaban Anda: '),
+                                      TextSpan(
+                                        text: '${selected ?? '-'}',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: isCorrect ? Colors.green.shade700 : Colors.red.shade700,
+                                        ),
+                                      ),
+                                      const TextSpan(text: ' • '),
+                                      const TextSpan(text: 'Jawaban Benar: '),
+                                      TextSpan(
+                                        text: '$correct',
+                                        style: TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            isCorrect ? Icons.check_circle_rounded : Icons.cancel_rounded,
+                            color: isCorrect ? Colors.green.shade600 : Colors.red.shade600,
+                            size: 30,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: w * 0.06, vertical: 15),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    prov.resetQuiz();
+                    Navigator.pushReplacementNamed(context, '/');
+                  },
+                  icon: const Icon(Icons.refresh),
+                  label: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 14),
+                    child: Text(
+                      'Ulangi Kuis',
+                      style: TextStyle(fontFamily: 'PoppinsCustom', fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: primaryColor,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
