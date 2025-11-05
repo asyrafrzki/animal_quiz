@@ -12,11 +12,17 @@ class ResultScreen extends StatelessWidget {
     final score = prov.calculateScore();
     final total = prov.total;
     final w = MediaQuery.of(context).size.width;
-    final primaryColor = Theme.of(context).primaryColor;
+    final primaryColor = const Color(0xFF00C897);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hasil Kuis', style: TextStyle(fontFamily: 'PoppinsCustom', fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Hasil Kuis',
+          style: TextStyle(
+            fontFamily: 'PoppinsCustom',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
@@ -31,7 +37,7 @@ class ResultScreen extends StatelessWidget {
                   const SizedBox(height: 18),
                   Text(
                     'Halo, ${prov.userName}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'PoppinsCustom',
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
@@ -41,14 +47,16 @@ class ResultScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   Card(
                     elevation: 4,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.star, color: Colors.amber, size: 30),
+                          const Icon(Icons.star, color: Colors.amber, size: 30),
                           const SizedBox(width: 10),
                           Text(
                             'Skor Anda: $score / $total',
@@ -67,7 +75,6 @@ class ResultScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: w * 0.04),
@@ -83,7 +90,9 @@ class ResultScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                       side: BorderSide(
-                        color: isCorrect ? Colors.green.shade400 : Colors.red.shade400,
+                        color: isCorrect
+                            ? Colors.green.shade400
+                            : Colors.red.shade400,
                         width: 2,
                       ),
                     ),
@@ -95,7 +104,8 @@ class ResultScreen extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset(q.imageAsset, width: 64, height: 64, fit: BoxFit.cover),
+                            child: Image.asset(q.imageAsset,
+                                width: 64, height: 64, fit: BoxFit.cover),
                           ),
                           const SizedBox(width: 15),
                           Expanded(
@@ -113,21 +123,29 @@ class ResultScreen extends StatelessWidget {
                                 const SizedBox(height: 5),
                                 Text.rich(
                                   TextSpan(
-                                    style: const TextStyle(fontFamily: 'PoppinsCustom', fontSize: 13),
+                                    style: const TextStyle(
+                                      fontFamily: 'PoppinsCustom',
+                                      fontSize: 13,
+                                    ),
                                     children: [
                                       const TextSpan(text: 'Jawaban Anda: '),
                                       TextSpan(
                                         text: '${selected ?? '-'}',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: isCorrect ? Colors.green.shade700 : Colors.red.shade700,
+                                          color: isCorrect
+                                              ? Colors.green.shade700
+                                              : Colors.red.shade700,
                                         ),
                                       ),
                                       const TextSpan(text: ' • '),
                                       const TextSpan(text: 'Jawaban Benar: '),
                                       TextSpan(
                                         text: '$correct',
-                                        style: TextStyle(fontWeight: FontWeight.bold, color: primaryColor),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: primaryColor,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -136,8 +154,12 @@ class ResultScreen extends StatelessWidget {
                             ),
                           ),
                           Icon(
-                            isCorrect ? Icons.check_circle_rounded : Icons.cancel_rounded,
-                            color: isCorrect ? Colors.green.shade600 : Colors.red.shade600,
+                            isCorrect
+                                ? Icons.check_circle_rounded
+                                : Icons.cancel_rounded,
+                            color: isCorrect
+                                ? Colors.green.shade600
+                                : Colors.red.shade600,
                             size: 30,
                           ),
                         ],
@@ -147,9 +169,9 @@ class ResultScreen extends StatelessWidget {
                 },
               ),
             ),
-
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: w * 0.06, vertical: 15),
+              padding:
+              EdgeInsets.symmetric(horizontal: w * 0.06, vertical: 15),
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
@@ -162,7 +184,11 @@ class ResultScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 14),
                     child: Text(
                       'Ulangi Kuis',
-                      style: TextStyle(fontFamily: 'PoppinsCustom', fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontFamily: 'PoppinsCustom',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
