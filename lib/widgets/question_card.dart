@@ -11,16 +11,15 @@ class QuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // image
         SizedBox(
           height: imageHeight,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
               question.imageAsset,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
               width: double.infinity,
             ),
           ),
@@ -28,6 +27,7 @@ class QuestionCard extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           question.question,
+          textAlign: TextAlign.center,
           style: TextStyle(fontFamily: 'PoppinsCustom', fontSize: w * 0.045, fontWeight: FontWeight.w600),
         ),
       ],

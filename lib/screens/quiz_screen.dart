@@ -6,6 +6,9 @@ import '../widgets/option_tile.dart';
 import '../widgets/custom_button.dart';
 import 'result_screen.dart';
 
+const Color primaryColor = Color(0xFF00C897);
+const Color selectedOptionTextColor = Colors.white;
+
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
 
@@ -19,66 +22,80 @@ class _QuizScreenState extends State<QuizScreen> {
     final prov = Provider.of<QuizProvider>(context);
     final questions = prov.questions;
     final q = questions[prov.currentIndex];
-    final selected = prov.selectedAnswers[q.id];
+    final selectedAnswerLetter = prov.selectedAnswers[q.id];
     final w = MediaQuery.of(context).size.width;
+    final bool isFirstQuestion = prov.currentIndex == 0;
+    final bool isLastQuestion = prov.currentIndex == prov.total - 1;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Soal ${prov.currentIndex + 1} / ${prov.total}', style: const TextStyle(fontFamily: 'PoppinsCustom')),
         automaticallyImplyLeading: false,
+        toolbarHeight: 0,
       ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: 12),
           child: Column(
             children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Text(
+                    'Soal ${prov.currentIndex + 1} of ${prov.total}',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: primaryColor,
+                      fontFamily: 'PoppinsCustom',
+                    ),
+                  ),
+                ),
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
                       QuestionCard(question: q, imageHeight: MediaQuery.of(context).size.height * 0.32),
-                      const SizedBox(height: 12),
-                      // options
+                      const SizedBox(height: 20),
                       for (int i = 0; i < q.options.length; i++)
                         OptionTile(
-                          letter: String.fromCharCode(97 + i), // a, b, c, d
+                          letter: String.fromCharCode(97 + i),
                           text: q.options[i],
-                          selected: selected == String.fromCharCode(97 + i),
+                          selected: selectedAnswerLetter == String.fromCharCode(97 + i),
                           onTap: () {
                             prov.selectAnswer(q.id, String.fromCharCode(97 + i));
                           },
                         ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 20),
                       Row(
                         children: [
                           Expanded(
                             child: CustomButton(
-                              text: prov.currentIndex == 0 ? 'Kosong' : 'Sebelumnya',
-                              onPressed: prov.currentIndex == 0 ? () {} : prov.prevQuestion,
+                              text: 'Sebelumnya',
+                              onPressed: isFirstQuestion ? null : prov.prevQuestion,
                               expanded: true,
                             ),
                           ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: CustomButton(
-                              text: prov.currentIndex == prov.total - 1 ? 'Selesai' : 'Berikutnya',
+                              text: isLastQuestion ? 'Selesai' : 'Berikutnya',
                               onPressed: () {
-                                if (prov.currentIndex == prov.total - 1) {
-                                  // go to result
+                                if (isLastQuestion) {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ResultScreen()));
                                 } else {
                                   prov.nextQuestion();
                                 }
                               },
+                              expanded: true,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
-                      // quick jump
+                      const SizedBox(height: 20),
                       Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
+                        spacing: 10,
+                        runSpacing: 10,
                         children: List.generate(prov.total, (i) {
                           final isAnswered = prov.selectedAnswers[prov.questions[i].id] != null;
                           return ElevatedButton(
@@ -86,9 +103,15 @@ class _QuizScreenState extends State<QuizScreen> {
                             style: ElevatedButton.styleFrom(
                               shape: const CircleBorder(),
                               padding: const EdgeInsets.all(12),
-                              backgroundColor: prov.currentIndex == i ? Theme.of(context).colorScheme.primary : (isAnswered ? Colors.green : Colors.grey),
+                              backgroundColor: prov.currentIndex == i
+                                  ? primaryColor
+                                  : (isAnswered ? Colors.green.shade400 : Colors.grey.shade400),
+                              elevation: 2,
                             ),
-                            child: Text('${i + 1}', style: const TextStyle(color: Colors.white, fontFamily: 'PoppinsCustom')),
+                            child: Text(
+                              '${i + 1}',
+                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'PoppinsCustom'),
+                            ),
                           );
                         }),
                       ),

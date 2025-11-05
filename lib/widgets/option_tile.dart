@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+const Color primaryColor = Color(0xFF00C897);
+const Color selectedOptionTextColor = Colors.white;
+
 class OptionTile extends StatelessWidget {
   final String letter;
   final String text;
@@ -17,32 +20,53 @@ class OptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 12, horizontal: w * 0.04),
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: selected ? Theme.of(context).colorScheme.primary : Colors.grey.shade300,
-            width: selected ? 2 : 1,
-          ),
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 16,
-              child: Text(letter.toUpperCase(), style: const TextStyle(fontFamily: 'PoppinsCustom')),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                text,
-                style: const TextStyle(fontFamily: 'PoppinsCustom', fontSize: 16),
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Material(
+        color: selected ? primaryColor : Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        elevation: selected ? 4 : 1,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 14, horizontal: w * 0.04),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: selected ? primaryColor : Colors.grey.shade300,
+                width: 1,
               ),
             ),
-          ],
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 16,
+                  backgroundColor: selected ? selectedOptionTextColor : primaryColor.withOpacity(0.1),
+                  child: Text(
+                    letter.toUpperCase(),
+                    style: TextStyle(
+                      fontFamily: 'PoppinsCustom',
+                      color: selected ? primaryColor : primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      fontFamily: 'PoppinsCustom',
+                      fontSize: 16,
+                      color: selected ? selectedOptionTextColor : Colors.black87,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
