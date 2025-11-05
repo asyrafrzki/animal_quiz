@@ -37,7 +37,7 @@ Aplikasi ini dirancang agar anak-anak dapat belajar mengenal berbagai jenis hewa
 | 1️⃣ | 🏠 **Halaman Awal** | ![img.png](img.png)|
 | 2️⃣ | 👤 **Halaman Masukkan Nama** | ![img_1.png](img_1.png) |
 | 3️⃣ | 🐾 **Halaman Kuis** | ![img_2.png](img_2.png) |
-| 4️⃣ | 📊 **Halaman Progres** | ![img_3.png](img_3.png) |
+| 4️⃣ | 📊 **Halaman Progres** | ![img_5.png](img_5.png) |
 | 5️⃣ | 🏅 **Halaman Hasil Kuis** | ![img_4.png](img_4.png) |
 
 
